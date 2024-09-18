@@ -1,41 +1,34 @@
 #!/bin/bash
 
-# Variables
-REPO_URL="https://github.com/anshikasrivastava17/NetflixMovieCatalog.git"  # Replace with your GitHub repo URL
-APP_DIR=~/NetflixMovieCatalog # Directory where the app will be stored
-
-# Clone the repository (or pull the latest changes if it already exists)
-if [ ! -d "$APP_DIR/NetflixMovieCatalog" ]; then
-  echo "Cloning repository..."
-  git clone $REPO_URL $APP_DIR/NetflixMovieCatalog
-else
-  echo "Repository exists. Pulling latest changes..."
-  cd $APP_DIR/NetflixMovieCatalog
-  git pull origin main
-fi
+# TODO your deploy script implementation...
+#!/bin/bash
 
 # Change to the app directory
-cd $APP_DIR/NetflixMovieCatalog
+mkdir -p ~/app
+cd ~/app || exit
 
-# Create a Python virtual environment and activate it
+# Pull the latest changes from the repo (optional, depends on your workflow)
+# git pull origin main
+
+# Create a Python virtual environment if it doesn't exist
 if [ ! -d "venv" ]; then
-  echo "Creating virtual environment..."
   python3 -m venv venv
 fi
 
-echo "Activating virtual environment..."
-source venv/bin/activate
+# Activate the virtual environment
+source myenv/bin/activate
 
-# Install required dependencies
-echo "Installing dependencies..."
+# Install Python dependencies
 pip install -r requirements.txt
 
-# Stop any existing Flask app instance (optional, if using a process manager)
-echo "Stopping any running Flask app..."
-pkill -f "python app.py" || true  # If Flask is running, kill it; ignore error if not running
+# Run migrations if any (for example, if you're using Flask-Migrate)
+# flask db upgrade
 
-# Start the Flask app in the background
-echo "Starting Flask app..."
-nohup python app.py > flask.log 2>&1 &
+# Restart the Flask app service using systemd
+sudo systemctl daemon-reload  # Reload systemd to detect changes in the service file (if any)
+sudo systemctl start uwsgi-flask.service  # Replace 'my_app.service' with your actual service name
 
-echo "Deployment completed successfully!"
+# Optionally, check the status of the service to ensure it's running
+sudo systemctl status uwsgi-flask.service
+
+echo "Deployment completed, and the service has been restarted!"
