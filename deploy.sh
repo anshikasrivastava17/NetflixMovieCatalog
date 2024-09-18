@@ -1,10 +1,14 @@
 #!/bin/bash
 
 # TODO your deploy script implementation...
-#!/bin/bash
 
 # Change to the app directory
-mkdir -p ~/app
+if [ ! -d "~/app" ]; then
+  mkdir -p ~/app
+else
+  echo "Directory ~/app already exists."
+fi
+
 cd ~/app || exit
 
 # Pull the latest changes from the repo (optional, depends on your workflow)
