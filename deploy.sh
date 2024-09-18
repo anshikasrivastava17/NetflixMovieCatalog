@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Variables
-REPO_URL="https://github.com/yourusername/NetflixMovieCatalog.git"  # Replace with your GitHub repo URL
-APP_DIR=~/app  # Directory where the app will be stored
+REPO_URL="https://github.com/anshikasrivastava17/NetflixMovieCatalog.git"  # Replace with your GitHub repo URL
+APP_DIR=~/NetflixMovieCatalog # Directory where the app will be stored
 
 # Clone the repository (or pull the latest changes if it already exists)
 if [ ! -d "$APP_DIR/NetflixMovieCatalog" ]; then
