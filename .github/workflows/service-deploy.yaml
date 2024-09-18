@@ -19,7 +19,7 @@ jobs:
 
       - name: SSH to EC2 instance
         run: |
-          echo "$SSH_PRIVATE_KEY" > mykey.pem
+          printf "%s" "$SSH_PRIVATE_KEY" > mykey.pem
           chmod 400 mykey.pem
           
           # Copy the files from the current work dir into the EC2 instance, under `~/app`.
